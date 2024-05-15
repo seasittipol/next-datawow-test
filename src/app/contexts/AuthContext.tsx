@@ -44,12 +44,15 @@ export default function AuthContextProvider({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
+      console.log(process.env.HOST);
+      console.log(process.env.NEXT_PUBLIC_HOST);
       const errors = validate_register(registerForm);
       if (Object.values(errors).join("") === "") {
         const { confirmPassword, ...result } = registerForm;
         const response = await register(result);
-        console.log(response);
-        console.log("111");
+        if (response.status !== 201) {
+          throw new Error("client error");
+        }
         window.location.replace("/auth/login");
       }
       setErrorHandler(errors);
