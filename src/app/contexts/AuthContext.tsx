@@ -1,14 +1,8 @@
 "use client";
 import React, { createContext, ReactNode, useState } from "react";
-
-interface RegisterType {
-  username: string;
-  firstName: string;
-  lastName: string;
-  password: string;
-  confirmPassword: string;
-  email: string;
-}
+import validate_register from "../validations/validate_register";
+import { RegisterType } from "../types/type";
+import { register } from "../apis/auth";
 
 const initailRegister: RegisterType = {
   username: "",
@@ -20,14 +14,16 @@ const initailRegister: RegisterType = {
 };
 
 interface AuthContextType {
-  register: RegisterType;
+  registerForm: RegisterType;
   handleForm: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  errorHandler: RegisterType;
 }
 const defaultValue: AuthContextType = {
-  register: initailRegister,
+  registerForm: initailRegister,
   handleForm: () => {},
   handleSubmit: () => {},
+  errorHandler: initailRegister,
 };
 
 export const AuthContext = createContext<AuthContextType>(defaultValue);
@@ -39,16 +35,29 @@ interface AuthContextProviderProps {
 export default function AuthContextProvider({
   children,
 }: AuthContextProviderProps) {
-  const [register, setRegister] = useState(initailRegister);
+  const [registerForm, setRegisterForm] = useState(initailRegister);
+  const [errorHandler, setErrorHandler] = useState(initailRegister);
   const handleForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setRegister((prevRegister) => ({ ...prevRegister, [name]: value }));
+    setRegisterForm((prevRegister) => ({ ...prevRegister, [name]: value }));
   };
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(register);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      const errors = validate_register(registerForm);
+      if (Object.values(errors).join("") === "") {
+        const { confirmPassword, ...result } = registerForm;
+        const response = await register(result);
+        console.log(response);
+        console.log("111");
+        window.location.replace("/auth/login");
+      }
+      setErrorHandler(errors);
+    } catch (err) {
+      console.log(err);
+    }
   };
-  const contextValue = { register, handleForm, handleSubmit };
+  const contextValue = { registerForm, handleForm, handleSubmit, errorHandler };
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );

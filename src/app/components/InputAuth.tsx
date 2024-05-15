@@ -1,6 +1,6 @@
 "user client";
 import useAuth from "@/app/hooks/useAuth";
-import React, { useState } from "react";
+import React from "react";
 
 interface Props {
   name: string;
@@ -9,41 +9,27 @@ interface Props {
   value: string | number;
 }
 
-// const initailRegister = {
-//   username: "",
-//   firstName: "",
-//   lastName: "",
-//   password: "",
-//   confirmPassword: "",
-//   email: "",
-// };
-
 export default function InputAuth(props: Props) {
-  const { register, handleForm } = useAuth();
+  const { registerForm, handleForm } = useAuth();
   const { name, type, placeholder, value } = props;
-  // const [register, setRegister] = useState(initailRegister);
-  // const handleForm = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
-  //   setRegister((prevRegister) => ({ ...prevRegister, [name]: value }));
-  // };
   return (
     <input
-      className="p-2 rounded"
+      className="p-2 rounded mt-2"
       name={name}
       type={type}
       placeholder={placeholder}
       value={
         value === "username"
-          ? register.username
+          ? registerForm.username
           : value === "firstName"
-          ? register.firstName
+          ? registerForm.firstName
           : value === "lastName"
-          ? register.lastName
+          ? registerForm.lastName
           : value === "password"
-          ? register.password
+          ? registerForm.password
           : value === "confirmPassword"
-          ? register.confirmPassword
-          : register.email
+          ? registerForm.confirmPassword
+          : registerForm.email
       }
       onChange={handleForm}
     />

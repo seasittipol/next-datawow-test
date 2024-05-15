@@ -5,12 +5,15 @@ import InputAuth from "@/app/components/InputAuth";
 import useAuth from "@/app/hooks/useAuth";
 
 export default function Register() {
-  const { handleSubmit } = useAuth();
+  const { handleSubmit, errorHandler } = useAuth();
 
   return (
-    <div className="w-full h-screen flex justify-center  items-center bg-green-700">
-      <form onSubmit={handleSubmit} className="w-3/5 p-36 justify-center flex">
-        <div className="flex flex-col gap-2 text-black w-96">
+    <div className="w-full h-full sm:h-screen flex flex-col-reverse gap-10 sm:flex-row sm:justify-center sm:items-center bg-[#243831]">
+      <form
+        onSubmit={handleSubmit}
+        className="sm:w-3/5 sm:p-36 justify-center flex"
+      >
+        <div className="flex flex-col text-black w-96">
           <div className="text-white">Register</div>
           <InputAuth
             name="username"
@@ -18,42 +21,60 @@ export default function Register() {
             placeholder="Username"
             value="username"
           />
+          <label className="font-light text-red-500">
+            {errorHandler.username}
+          </label>
           <InputAuth
             name="firstName"
             type="text"
             placeholder="First name"
             value="firstName"
           />
+          <label className="font-light text-red-500">
+            {errorHandler.firstName}
+          </label>
           <InputAuth
             name="lastName"
             type="text"
             placeholder="Last name"
             value="lastName"
           />
+          <label className="font-light text-red-500">
+            {errorHandler.lastName}
+          </label>
           <InputAuth
             name="password"
             type="password"
             placeholder="Password"
             value="password"
           />
+          <label className="font-light text-red-500">
+            {errorHandler.password}
+          </label>
           <InputAuth
             name="confirmPassword"
             type="password"
             placeholder="Confirm password"
             value="confirmPassword"
           />
+          <label className="font-light text-red-500">
+            {errorHandler.confirmPassword}
+          </label>
           <InputAuth
             name="email"
             type="text"
             placeholder="Email"
             value="email"
           />
-          <button className="bg-green-500 rounded p-2">Submit</button>
+          <label className="font-light text-red-500">
+            {errorHandler.email}
+          </label>
+          <button className="bg-[#49A569] rounded p-2 mt-2">Submit</button>
         </div>
       </form>
-      <div className="h-full w-2/5 bg-green-500 flex flex-col justify-center items-center rounded-l-3xl">
+      <div className="h-96 sm:h-full sm:w-2/5 bg-[#2B5F44] flex flex-col justify-center items-center rounded-b-3xl sm:rounded-l-3xl">
         <img
-          className="w-96"
+          className="w-64  sm:w-96"
           src="https://s3-alpha-sig.figma.com/img/0fbc/43f4/9761bea793b24e9f6af1620580a39d2f?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ColmJFh8KLnt-kqgVjkg0e0Nke2LTBecif94kpOoBqv1h-YvIVvHKAjmz2mdYitDfglw6kN7iphmpLnlEtLV5RxXHGh9fPRpNpVU7mtxp4wyYE55qJGbP1bjwQQ52HtN6kkOY33OmhBvBn742LgR9YIJpyPuPp0q0apkE-b6vgjPQ7SF8Rp1H7n8M9r38HIL-gSczuvlk9y1x5WJsM1qZlLH270KavnHBLP6Cx1PbHajdiSeFOUh7895NjEfXGUhQs-31GNfFQ1Z2cfrZSiWzRlPacimPtidnGXIHmPQh-Vn2LSaStstY3cfeVBBtoDcvfzCtW5IeFBbjeFlDC~A7w__"
         />
         a Board
