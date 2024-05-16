@@ -3,6 +3,7 @@ import React, { createContext, ReactNode, useState } from "react";
 import validate_register from "../validations/validate_register";
 import { RegisterType } from "../types/type";
 import { register } from "../apis/auth";
+import { toast } from "react-toastify";
 
 const initailRegister: RegisterType = {
   username: "",
@@ -16,13 +17,13 @@ const initailRegister: RegisterType = {
 interface AuthContextType {
   registerForm: RegisterType;
   handleForm: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleSubmitRegister: (e: React.FormEvent<HTMLFormElement>) => void;
   errorHandler: RegisterType;
 }
 const defaultValue: AuthContextType = {
   registerForm: initailRegister,
   handleForm: () => {},
-  handleSubmit: () => {},
+  handleSubmitRegister: () => {},
   errorHandler: initailRegister,
 };
 
@@ -41,10 +42,9 @@ export default function AuthContextProvider({
     const { name, value } = e.target;
     setRegisterForm((prevRegister) => ({ ...prevRegister, [name]: value }));
   };
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      console.log(process.env.HOST);
       console.log(process.env.NEXT_PUBLIC_HOST);
       const errors = validate_register(registerForm);
       if (Object.values(errors).join("") === "") {
@@ -56,11 +56,17 @@ export default function AuthContextProvider({
         window.location.replace("/auth/login");
       }
       setErrorHandler(errors);
-    } catch (err) {
+    } catch (err: any) {
+      toast.error(err?.response.data.message);
       console.log(err);
     }
   };
-  const contextValue = { registerForm, handleForm, handleSubmit, errorHandler };
+  const contextValue = {
+    registerForm,
+    handleForm,
+    handleSubmitRegister,
+    errorHandler,
+  };
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );

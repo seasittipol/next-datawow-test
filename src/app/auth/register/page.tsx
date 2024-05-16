@@ -5,12 +5,12 @@ import InputAuth from "@/app/components/InputAuth";
 import useAuth from "@/app/hooks/useAuth";
 
 export default function Register() {
-  const { handleSubmit, errorHandler } = useAuth();
+  const { handleSubmitRegister, errorHandler } = useAuth();
 
   return (
     <div className="w-full h-full sm:h-screen flex flex-col-reverse gap-10 sm:flex-row sm:justify-center sm:items-center bg-major">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmitRegister}
         className="sm:w-3/5 sm:p-36 justify-center flex"
       >
         <div className="flex flex-col text-black w-96">

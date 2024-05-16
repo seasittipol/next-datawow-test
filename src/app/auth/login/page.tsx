@@ -1,14 +1,26 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import { login } from "@/app/apis/auth";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setUsername("");
-    setPassword("");
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      const data = { username, password };
+      const response = await login(data);
+      const token = response.data.accessToken;
+      localStorage.setItem("ACCESS_TOKEN", token);
+      setUsername("");
+      setPassword("");
+      window.location.replace("/home");
+    } catch (err: any) {
+      toast.error(err?.response.data.message);
+      console.log(err?.response.data.message);
+    }
   };
   return (
     <div className="w-full h-screen flex justify-center  items-center bg-major">
