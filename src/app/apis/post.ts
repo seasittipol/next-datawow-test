@@ -1,19 +1,19 @@
 import axiosInstance from "../config/axiosInstance";
 import { Posts } from "../types/type";
 
-export const findAllPosts = () => axiosInstance.get("/posts");
+export const findAllPostsApi = () => axiosInstance.get("/posts");
 
-export const findOnePostWithId = (id: number) =>
+export const findOnePostWithIdApi = (id: number) =>
   axiosInstance.get(`/posts/${id}`);
 
-export const findPostsWithUserId = (userId: number) =>
+export const findPostsWithUserIdApi = (userId: number) =>
   axiosInstance.get(`/posts/user/${userId}`);
 
-export const createPost = (content: Posts) =>
+export const createPostApi = (content: Posts) =>
   axiosInstance.post("/posts", content);
 
-export const updatePostWithId = (id: number, content: Posts) =>
+export const updatePostWithIdApi = (id: number, content: Posts) =>
   axiosInstance.patch(`/posts/${id}`, content);
 
-export const deletePostWithId = (id: number) =>
+export const deletePostWithIdApi = (id: number) =>
   axiosInstance.delete(`/posts/${id}`);
