@@ -30,3 +30,16 @@ export interface User {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface Posts {
+  title?: string;
+  body?: string;
+  userId: number;
+  category?: string;
+}
+
+export interface Comments {
+  description: string;
+  userId?: number;
+  postId?: number;
+}
