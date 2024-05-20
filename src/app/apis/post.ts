@@ -6,6 +6,9 @@ export const findAllPosts = () => axiosInstance.get("/posts");
 export const findOnePostWithId = (id: number) =>
   axiosInstance.get(`/posts/${id}`);
 
+export const findPostsWithUserId = (userId: number) =>
+  axiosInstance.get(`/posts/user/${userId}`);
+
 export const createPost = (content: Posts) =>
   axiosInstance.post("/posts", content);
 
