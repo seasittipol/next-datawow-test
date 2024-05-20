@@ -1,12 +1,21 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { login } from "@/app/apis/auth";
 import { toast } from "react-toastify";
+import useAuth from "@/app/hooks/useAuth";
 
 export default function Login() {
+  const { authUser }: any = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (authUser) {
+      window.location.replace("/home");
+    }
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();

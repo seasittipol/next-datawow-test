@@ -1,8 +1,8 @@
 "use client";
-import React, { createContext, ReactNode, useState } from "react";
+import React, { createContext, ReactNode, useEffect, useState } from "react";
 import validate_register from "../validations/validate_register";
-import { RegisterType } from "../types/type";
-import { register } from "../apis/auth";
+import { RegisterType, User } from "../types/type";
+import { fetchMe, register } from "../apis/auth";
 import { toast } from "react-toastify";
 
 const initailRegister: RegisterType = {
@@ -36,8 +36,27 @@ interface AuthContextProviderProps {
 export default function AuthContextProvider({
   children,
 }: AuthContextProviderProps) {
+  const [authUser, setAuthUser] = useState<User | null>(null);
   const [registerForm, setRegisterForm] = useState(initailRegister);
   const [errorHandler, setErrorHandler] = useState(initailRegister);
+
+  const fetchUser = async () => {
+    try {
+      const token = localStorage.getItem("ACCESS_TOKEN");
+      if (token) {
+        const response = await fetchMe();
+        setAuthUser(response?.data.user);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  console.log(authUser);
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   const handleForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setRegisterForm((prevRegister) => ({ ...prevRegister, [name]: value }));
@@ -62,6 +81,7 @@ export default function AuthContextProvider({
     }
   };
   const contextValue = {
+    authUser,
     registerForm,
     handleForm,
     handleSubmitRegister,

@@ -1,11 +1,18 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import InputAuth from "@/app/components/InputAuth";
 import useAuth from "@/app/hooks/useAuth";
 
 export default function Register() {
   const { handleSubmitRegister, errorHandler } = useAuth();
+  const { authUser }: any = useAuth();
+
+  useEffect(() => {
+    if (authUser) {
+      window.location.replace("/home");
+    }
+  }, []);
 
   return (
     <div className="w-full h-full sm:h-screen flex flex-col-reverse gap-10 sm:flex-row sm:justify-center sm:items-center bg-major">

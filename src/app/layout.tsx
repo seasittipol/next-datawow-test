@@ -21,6 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <title>a Board</title>
       <AuthContextProvider>
         <body className={inter.className}>
           <ToastContainer
